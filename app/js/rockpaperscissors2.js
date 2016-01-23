@@ -34,8 +34,6 @@ function randomPlay() {
 /*           Write Your Code Below            */
 ////////////////////////////////////////////////
 
-
-
 function getPlayerMove(move) {
     // Write an expression that operates on a variable called `move`
     // If a `move` has a value, your expression should evaluate to that value.
@@ -67,60 +65,64 @@ function getWinner(playerMove,computerMove) {
     /* YOUR CODE HERE */
 
 
-    // set up an array of choices possible//
-    var choices = ["rock", "paper", "scissors"];
-    //make empty object//
-    var map = {};
     
-    //start ForEach//
-    choices.forEach(function(choice, i) {
-
-    //create an empty object for each choice on each iteration of ForEach//
-    map[choice] = {};
-    //start a loop that defines half; goes up to choices array length;//
-    for (var j = 0, half = (choices.length-1)/2; j < choices.length; j++) {
-        // opposition is i(index of the array)+j (for loop iteration), % of array lenght//
-        var opposition = (i+j)%choices.length;
-        if (!j)
-        // when j =0, map choice against itself as a tie//
-            map[choice][choice] = "tie";
-        else if (j <= half)
-        // if j=1 (which is below or equal to half in this array), than map choice against choice which is equal to index of choice from array choices plus J % choices.length//
-            map[choice][choices[opposition]] = "computer wins";
-        else
-            map[choice][choices[opposition]] = "player wins";
+    if ((playerMove==='rock' || computerMove==='rock') && (playerMove==='scissors' || computerMove==='scissors')) {
+        if (playerMove==='rock') {
+        winner = 'player wins'; 
+        return winner;
+        } else {
+        winner = 'computer wins';
+        return winner;
+        }
+    } 
+    
+    if ((playerMove==='scissors' || computerMove==='scissors') && (playerMove==='paper' || computerMove==='paper')) {
+        if (playerMove==='scissors') {
+        winner = 'player wins'; 
+        return winner;
+        } else {
+        winner = 'computer wins';
+        return winner;
+        }
     }
-});
+    
+    if ((playerMove==='paper' || computerMove==='paper') && (playerMove==='rock' || computerMove==='rock')) {
+        if (playerMove==='paper') {
+        winner = 'player wins'; 
+        return winner;
+        } else {
+        winner = 'computer wins';
+        return winner;
+        }
+    }
+    
+    if (playerMove===computerMove) {
+        winner = 'tie';
+        return winner;
+    } 
 
-    winner= map[playerMove][computerMove];
     return winner;
 }
-
-
-
 
 function playTo(x) {
     console.log("Let's play Rock, Paper, Scissors");
     var playerWins = 0;
     var computerWins = 0;
-    var tie = 0;
-    // Write code that plays 'Rock, Paper, Scissors' until either the player or the computer has won five times
+    // Write code that plays 'Rock, Paper, Scissors' until either the player or the computer has won five times.
+    /* YOUR CODE HERE */
 
-    
 
-    while (playerWins<x && computerWins<x) {
-    var winner =getWinner(getPlayerMove(),getComputerMove());
-    if (winner==='player wins') {
+start: while(true) {
+
+    if (getWinner(getPlayerMove(),getComputerMove())==='player wins') {
         playerWins=playerWins+1;
-    } else if (winner==='computer wins') { computerWins=computerWins+1;
-    } else { tie = tie+1; }
+    } else { computerWins=computerWins+1;}
+
+    if ((playerWins<x) && (computerWins<x)) continue start;
+    break;
 }
 
-
-
-    return 'player won '+playerWins + (playerWins>1 && playerWins!==0 ? ' times':' time')
-            +' and computer won '+computerWins+(computerWins>1 && computerWins!==0 ? ' times':' time')
-            +', while tying '+tie+(tie>1 && tie!==0 ? ' times':' time');
+    return 'player won '+playerWins+' times'+' and computer won '+computerWins+' times';
 }
 
-playTo(5); 
+playTo(5);
